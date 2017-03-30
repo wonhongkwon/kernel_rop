@@ -1,14 +1,15 @@
 obj-m += drv.o
 
-CC=gcc
-ccflags-y += "-g"
-ccflags-y += "-O0"
+CC=arm-lg115x-linux-gnueabi-gcc
+
+KERNEL_SRC := /home4/wonhong.kwon/kernel/linux-lg115x
+PWD := $(shell pwd)
 
 all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
 	# compile the trigger
 	$(CC) trigger.c -O2 -o trigger
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
 	rm -fr ./trigger
